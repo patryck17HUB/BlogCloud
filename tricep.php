@@ -27,8 +27,8 @@
 	<div id="head" class="parallax" parallax-speed="2">
 		<h1 id="logo" class="text-center">
 			<img class="img-circle" src="assets/images/LOGOUAQ.jpg" alt="">
-			<span class="title">UAQ</span><br>
-			<span class="title">Registro de materias</span>
+			<span class="title">EZSport</span><br>
+			<span class="title">Tricep</span>
 		</h1>
 	</div>
 
