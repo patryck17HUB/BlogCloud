@@ -28,7 +28,7 @@
 		<h1 id="logo" class="text-center">
 			<img class="img-circle" src="assets/images/LOGOUAQ.jpg" alt="">
 			<span class="title">EZSport</span><br>
-			<span class="title">Tricep</span>
+			<span class="title">Pecho</span>
 		</h1>
 	</div>
 

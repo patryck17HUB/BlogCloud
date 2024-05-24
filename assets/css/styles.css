@@ -60,6 +60,10 @@ body {
   float: none;
   display: inline-block;
 }
+.navbar-collapse .navbar-nav > li.login-item {
+  position: absolute;
+  right: 0;
+}
 .navbar-collapse .navbar-nav > li > a {
   padding: 20px 30px;
 }
@@ -230,6 +234,7 @@ a:hover {
 
 
 **********************************************************************/
+
 #head {
   background: #f4f4f4 url(../images/push.jpg) top center;
   background-size: cover;
