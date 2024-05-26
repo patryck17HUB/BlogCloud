@@ -136,7 +136,7 @@
 								$resultado = $bd->query($query);
 
 								if ($resultado->num_rows > 0) {
-									echo '<div class="col-sm-8 col-sm-offset-2">';
+
 									while ($row = $resultado->fetch_assoc()) {
 										$postId = $row['id'];
 										$title = $row['title'];
