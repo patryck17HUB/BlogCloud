@@ -17,6 +17,7 @@ if ($bd->connect_error) {
 $name = $bd->real_escape_string($_POST['name']);
 $mail = $bd->real_escape_string($_POST['mail']);
 $password = $bd->real_escape_string($_POST['password']);
+$avatar = $bd->real_escape_string($_POST['avatar']);
 
 // Consulta SQL para verificar si el nombre de usuario ya existe
 $query_check = "SELECT * FROM users WHERE name = '$name'";
@@ -39,7 +40,7 @@ if ($result_check && $result_check->num_rows > 0) {
 }
 
 // Consulta SQL para insertar el nuevo usuario
-$query_insert = "INSERT INTO users (name, mail, password, admin) VALUES ('$name','$mail', '$password', '0')";
+$query_insert = "INSERT INTO users (name, mail, password, avatar_url, admin) VALUES ('$name','$mail', '$password', '$avatar', '0')";
 $result_insert = $bd->query($query_insert);
 
 // Verificación de resultados

@@ -566,8 +566,14 @@ img {
 .entry-header .entry-meta a {
   color: #a5a5a5;
 }
+.entry-header .entry-meta img {
+  width: 50px; 
+  height: 50px;
+}
 .entry-content {
   margin: 0 0 60px 0;
+  word-wrap: break-word; /* Para que las palabras largas se dividan y no se desborden */
+  max-width: 100%;
 }
 .entry-content h2 {
   line-height: 1.2;
@@ -697,7 +703,7 @@ footer.entry-meta .meta-in {
   width: 70px;
   height: 70px;
   margin-bottom: 20px;
-  border: 5px solid #eeeeee;
+  border: 2px solid #eeeeee;
   -webkit-border-radius: 50%;
   -webkit-background-clip: padding-box;
   -moz-border-radius: 50%;
@@ -756,6 +762,7 @@ footer.entry-meta .meta-in {
 }
 #respond {
   margin: 55px 0 0 0;
+  margin-bottom: 30px;
 }
 /*********************************************************************
 

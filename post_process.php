@@ -19,7 +19,6 @@ $topic = $bd->real_escape_string($_POST['topic']);
 $content = $bd->real_escape_string($_POST['content']);
 $name = $bd->real_escape_string($_POST['name']);
 
-
 // Consulta SQL para insertar el nuevo usuario
 $query_insert = "INSERT INTO posts (title, topic, content, autor) VALUES ('$title','$topic', '$content', '$name')";
 $result_insert = $bd->query($query_insert);

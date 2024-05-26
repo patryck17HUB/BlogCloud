@@ -132,21 +132,24 @@
 								die("Conexión fallida: " . $bd->connect_error);
 							}
 
-							$query = "SELECT * FROM posts ORDER BY id DESC LIMIT 5"; // Limitar a solo 5 resultados
+							$query = "SELECT p.title, p.content, p.id, u.name as author_name, u.avatar_url as author_avatar FROM posts p 
+									JOIN users u ON p.autor = u.name  ORDER BY p.id DESC LIMIT 5";
 							$resultado = $bd->query($query);
 
+
 							if ($resultado->num_rows > 0) {
-								echo '<div class="col-sm-8 col-sm-offset-2">';
 								while ($row = $resultado->fetch_assoc()) {
 									$postId = $row['id'];
 									$title = $row['title'];
 									$content = $row['content'];
-									$autor = $row['autor'];
+									$autor = $row['author_name'];
+									$autor_avatar = $row['author_avatar'];
 
 									echo "
 									<article class='post'>
 										<header class='entry-header'>
 											<div class='entry-meta'> 
+												<img src='$autor_avatar' alt='Avatar' class='avatar'>
 												<span class='posted-on'><time class='entry-date published'>Publicado por $autor</span>            
 											</div>
 											<h1 class='entry-title'><a href='post.php?id=$postId' rel='bookmark'>$title</a></h1>

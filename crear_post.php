@@ -121,28 +121,27 @@
 
                     <div class="login-container">
 																	
-                    <form action="post_process.php" method="POST">
-                        <div class="form-group">
-                            <label for="title">Título</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Ingresa el título del post" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="topic">Tema</label>
-                            <select class="form-control" id="topic" name="topic" required>
-                                <option value="tren_superior">Tren Superior</option>
-                                <option value="tren_inferior">Tren Inferior</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="content">Contenido</label>
-                            <textarea class="form-control" id="content" name="content" placeholder="Ingresa el contenido del post" rows="5" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" class="form-control" id="name" name="name" value="<?php echo $_COOKIE['usuario']; ?>">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Publicar</button>
-                    </form>
-
+                    <form action="post_process.php" method="POST" enctype="multipart/form-data">
+						<div class="form-group">
+							<label for="title">Título</label>
+							<input type="text" class="form-control" id="title" name="title" placeholder="Ingresa el título del post" required>
+						</div>
+						<div class="form-group">
+							<label for="topic">Tema</label>
+							<select class="form-control" id="topic" name="topic" required>
+								<option value="tren_superior">Tren Superior</option>
+								<option value="tren_inferior">Tren Inferior</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="content">Contenido</label>
+							<textarea class="form-control" id="content" name="content" placeholder="Ingresa el contenido del post" rows="5" required></textarea>
+						</div>
+						<div class="form-group">
+							<input type="hidden" class="form-control" id="name" name="name" value="<?php echo $_COOKIE['usuario']; ?>">
+						</div>
+						<button type="submit" class="btn btn-primary">Publicar</button>
+					</form>
                     </div>
 					</div>
 				</div>

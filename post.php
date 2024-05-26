@@ -15,22 +15,23 @@ if ($bd->connect_error) {
 // Obtener el ID del post desde la URL
 $post_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-$query = "SELECT * FROM posts WHERE id = $post_id";
+$query = "SELECT p.title, p.content, p.id, u.name as author_name, u.avatar_url as author_avatar FROM posts p 
+          JOIN users u ON p.autor = u.name WHERE p.id = $post_id";
 $resultado = $bd->query($query);
 
 if ($resultado->num_rows > 0) {
     $row = $resultado->fetch_assoc();
     $title = $row['title'];
     $content = $row['content'];
-    $autor = $row['autor'];
+    $autor = $row['author_name'];
+    $autor_avatar = $row['author_avatar'];
 } else {
     echo "Post no encontrado";
     exit();
 }
 
-
 // Obtener los comentarios del post actual
-$comments_query = "SELECT c.id, c.content, u.name as author FROM comments c 
+$comments_query = "SELECT c.id, c.content, u.name as author, u.avatar_url as author_avatar FROM comments c 
                    JOIN users u ON c.id_user = u.id WHERE c.id_post = $post_id AND c.id_comment IS NULL";
 $comments_result = $bd->query($comments_query);
 
@@ -42,7 +43,7 @@ if ($comments_result->num_rows > 0) {
 }
 
 // Obtener las réplicas de los comentarios
-$replies_query = "SELECT c.id, c.content, u.name as author, c.id_comment FROM comments c 
+$replies_query = "SELECT c.id, c.content, u.name as author, c.id_comment, u.avatar_url as author_avatar FROM comments c 
                   JOIN users u ON c.id_user = u.id WHERE c.id_post = $post_id AND c.id_comment IS NOT NULL";
 $replies_result = $bd->query($replies_query);
 
@@ -168,25 +169,31 @@ $bd->close();
 
     <main id="main">
         <div class="container">
+            <!-- Detalles del post -->
             <div class="row section recentworks topspace">
+                <!-- Contenido del post -->
                 <div class="col-sm-8 col-sm-offset-2">
                     <article class="post">
+                        <!-- Cabecera del post -->
                         <header class="entry-header">
                             <div class="entry-meta">
-                                <span class="posted-on"><time class="entry-date published">Publicado por <?php echo $autor; ?></span>
+                                <!-- Avatar y autor -->
+                                <img src="<?php echo $autor_avatar; ?>" alt="Avatar" class="avatar">
+                                <span class="posted-on"><time class="entry-date published">Publicado por <?php echo $autor; ?></time></span>
                             </div>
+                            <!-- Título del post -->
                             <h1 class="entry-title"><?php echo $title; ?></h1>
                         </header>
+                        <!-- Contenido del post -->
                         <div class="entry-content">
                             <p><?php echo $content; ?></p>
                         </div>
                     </article>
                 </div>
-
             </div>
-            <div class="row">
-			<div class="col-sm-8 col-sm-offset-2">
-
+                        <!-- Sección de comentarios -->
+                        <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
                 <?php if (isset($_COOKIE['usuario'])): ?>
                     <!-- Formulario para dejar un comentario -->
                     <div id="respond">
@@ -204,61 +211,56 @@ $bd->close();
                 <?php else: ?>
                     <p> Inicie sesión para unirte a la conversación </p>
                 <?php endif; ?>
-
-				<!-- Comentarios -->
-                <div id="comments">    
-                        <?php
-                        $total_comments = count($comments);
-                        foreach ($replies as $reply) {
-                            $total_comments += count($reply);
-                        }
-                        ?>
-                        <h3 class="comments-title"><?php echo $total_comments; ?> Comentarios</h3>
-                        
+                    <!-- Comentarios -->
+                    <div id="comments">    
+                        <!-- Lista de comentarios -->
                         <ol class="comments-list">
                             <?php foreach ($comments as $comment): ?>
                                 <li class="comment" id="comment-<?php echo $comment['id']; ?>">
-                                <div>
-                                    <img src="assets/images/avatar_man.png" alt="Avatar" class="avatar">
-                                                    
-                                    <div class="comment-meta">
-                                        <span class="author"><?php echo $comment['author']; ?></span>
-                                        <?php if (isset($_COOKIE['usuario'])): ?>
-                                            <span class="reply"><a href="#" class="reply-link" data-comment-id="<?php echo $comment['id']; ?>">Responder</a></span>
-                                        <?php endif; ?>
-                                    </div>
-
-                                    <div class="comment-body">
-                                        <?php echo $comment['content']; ?>
-                                    </div>
-                                </div>
-
-                                <?php if (isset($replies[$comment['id']])): ?>
-                                <ul class="children">
-                                    <?php foreach ($replies[$comment['id']] as $reply): ?>
-                                    <li class="comment" id="comment-<?php echo $reply['id']; ?>">
-                                        <div>
-                                            <img src="assets/images/avatar_man.png" alt="Avatar" class="avatar">
-                                                                        
-                                            <div class="comment-meta">
-                                                <span class="author"><?php echo $reply['author']; ?></span>
-                                            </div>
-
-                                            <div class="comment-body">
-                                                <?php echo $reply['content']; ?>
-                                            </div>
+                                    <div>
+                                        <!-- Avatar del autor del comentario -->
+                                        <img src="<?php echo $comment['author_avatar']; ?>" alt="Avatar" class="avatar">
+                                        <div class="comment-meta">
                                         </div>
-                                    </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                                <?php endif; ?>
-                            </li>
+                                        <div class="comment-meta">
+                                            <span class="author"><?php echo $comment['author']; ?></span>
+                                            <?php if (isset($_COOKIE['usuario'])): ?>
+                                                <span class="reply"><a href="#" class="reply-link" data-comment-id="<?php echo $comment['id']; ?>">Responder</a></span>
+                                            <?php endif; ?>
+                                        </div>
+                                        <!-- Contenido del comentario -->
+                                        <div class="comment-body">
+                                            <?php echo $comment['content']; ?>
+                                        </div>
+                                    </div>
+                                    <!-- Respuestas a este comentario -->
+                                    <?php if (isset($replies[$comment['id']])): ?>
+                                        <ul class="children">
+                                            <?php foreach ($replies[$comment['id']] as $reply): ?>
+                                                <li class="comment" id="comment-<?php echo $reply['id']; ?>">
+                                                    <div>
+                                                        <!-- Avatar del autor de la respuesta -->
+                                                        <img src="<?php echo $reply['author_avatar']; ?>" alt="Avatar" class="avatar">
+                                                        <div class="comment-meta">
+                                                            <!-- Nombre del autor -->
+                                                            <span class="author"><?php echo $reply['author']; ?></span>
+                                                        </div>
+                                                        <!-- Contenido de la respuesta -->
+                                                        <div class="comment-body">
+                                                            <?php echo $reply['content']; ?>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
+                                </li>
                             <?php endforeach; ?>
                         </ol>
-                        
-                        <div class="clearfix"></div>
-
-                        <!-- Formulario de comentarios -->
+                        <!-- Fin de la lista de comentarios -->
+                    </div>
+                    <!-- Formulario de comentarios -->
+                    <!-- Fin de la sección de comentarios -->
 					
 					<div class="clearfix"></div>
 

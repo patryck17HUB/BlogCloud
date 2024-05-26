@@ -131,7 +131,8 @@
 									die("Conexión fallida: " . $bd->connect_error);
 								}
 
-								$query = "SELECT * FROM posts WHERE topic = 'tren_superior'";
+								$query = "SELECT p.title, p.content, p.id, u.name as author_name, u.avatar_url as author_avatar FROM posts p 
+									JOIN users u ON p.autor = u.name WHERE p.topic = 'tren_superior'";
 								$resultado = $bd->query($query);
 
 								if ($resultado->num_rows > 0) {
@@ -140,12 +141,14 @@
 										$postId = $row['id'];
 										$title = $row['title'];
 										$content = $row['content'];
-										$autor = $row['autor'];
+										$autor = $row['author_name'];
+										$autor_avatar = $row['author_avatar'];
 
 										echo "
-										<article class='post'>
+											<article class='post'>
 											<header class='entry-header'>
 												<div class='entry-meta'> 
+													<img src='$autor_avatar' alt='Avatar' class='avatar'>
 													<span class='posted-on'><time class='entry-date published'>Publicado por $autor</span>            
 												</div>
 												<h1 class='entry-title'><a href='post.php?id=$postId' rel='bookmark'>$title</a></h1>

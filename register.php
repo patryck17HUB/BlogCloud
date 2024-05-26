@@ -76,7 +76,7 @@
 
                     <div class="login-container">
 						
-                    <form action="post_process.php" method="POST">
+                    <form action="register_process.php" method="POST">
                         <div class="form-group">
                             <label for="name">Nombre de usuario</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Ingresa tu nombre de usuario" required>
@@ -94,6 +94,12 @@
                             <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirma tu contraseña" required>
                             <p id="passwordError" class="text-danger"></p>
                         </div>
+						<div class="form-group">
+                            <label for="avatar">Selecciona un avatar</label>
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#avatarModal">Elegir Avatar</button>
+                            <input type="hidden" id="avatar" name="avatar">
+                            <div id="selectedAvatar" class="topspace"></div>
+                        </div>
                         <button id="registerButton" type="submit" class="btn btn-primary">Registrarse</button>
                     </form>
 					
@@ -104,6 +110,28 @@
 		</div>
 	</div>
 </main>
+
+<!-- Modal para elegir avatar -->
+<div id="avatarModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Selecciona un avatar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row" id="avatarContainer">
+          <!-- Aquí se cargarán las imágenes de los avatares -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer id="footer">
 	<div class="container">
@@ -148,7 +176,37 @@ $(document).ready(function() {
             $('#registerButton').prop('disabled', true);
         }
     });
+
+    // Cargar avatares desde el servidor
+    $.getJSON('get_avatars.php', function(data) {
+        console.log('Respuesta de get_avatars.php:', data);  // Mensaje de depuración
+        var avatarContainer = $('#avatarContainer');
+        avatarContainer.empty();  // Limpiar cualquier contenido previo
+        $.each(data, function(index, avatar) {
+            var img = $('<img>').attr('src', avatar.url).addClass('avatar-img');
+            var col = $('<div>').addClass('col-xs-3').append(img);
+            avatarContainer.append(col);
+        });
+
+        // Agregar evento de clic a las imágenes
+        $('.avatar-img').on('click', function() {
+            var avatarUrl = $(this).attr('src');
+            $('#avatar').val(avatarUrl);
+            $('#selectedAvatar').html('<img src="' + avatarUrl + '" class="img-thumbnail">');
+            $('#avatarModal').modal('hide');
+        });
+    }).fail(function(jqxhr, textStatus, error) {
+        console.error('Error al cargar los avatares:', textStatus, error);
+    });
 });
 </script>
+<style>
+.avatar-img {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+</style>
 </body>
 </html>
