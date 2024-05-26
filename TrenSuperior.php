@@ -28,37 +28,81 @@
 		<h1 id="logo" class="text-center">
 			<img class="img-circle" src="assets/images/LOGOUAQ.jpg" alt="">
 			<span class="title">EZSport</span><br>
-			<span class="title">Pecho</span>
+			<span class="title">Ejercicios</span>
 		</h1>
 	</div>
 
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default navbar-sticky">
 		<div class="container-fluid">
+			
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> 
+					<span class="sr-only">Toggle navigation</span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span> 
 				</button>
 			</div>
 			
-			<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-					
-					<li class="active"><a href="index.html">Home</a></li>
+			<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+				
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="index.php">Inicio</a></li>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Materias<b class="caret"></b></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Temas<b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="materias.php">Registro</a></li>
-							<li><a href="rmaterias.php">Consulta escolar</a></li>
-							
+							<li><a href="TrenSuperior.php">Tren Superior</a></li>
+							<li><a href="TrenInferior.php">Tren Inferior</a></li>
 						</ul>
 					</li>
-					<li><a href="about.html">Datos</a></li>
-					
+					<?php
+					// Verificar si el usuario está autenticado
+					if (isset($_COOKIE['usuario'])) {
+						// Conexión a la base de datos
+						$host = "cloudblogdb.c7jstvu3n7sx.us-east-1.rds.amazonaws.com";
+						$usuario = "admin";
+						$contrasena = "12345678";
+						$base_de_datos = "CloudBlog";
+
+						$bd = new mysqli($host, $usuario, $contrasena, $base_de_datos);
+
+						// Verificación de conexión
+						if ($bd->connect_error) {
+							die("Conexión fallida: " . $bd->connect_error);
+						}
+
+						// Obtener el tipo de usuario
+						$name = $_COOKIE['usuario'];
+						$query = "SELECT admin FROM users WHERE name = '$name'";
+						$resultado = $bd->query($query);
+
+						// Verificar si se encontró el usuario
+						if ($resultado->num_rows > 0) {
+							$fila = $resultado->fetch_assoc();
+							$admin = $fila['admin'];
+
+							// Mostrar el botón "Crear Post" solo si el usuario es administrador
+							if ($admin == 1) {
+								echo '<li><a href="crear_post.php">Crear Post</a></li>';
+							}
+						}
+
+						// Cerrar la conexión a la base de datos
+						$bd->close();
+					}
+					?>
+					<?php
+                    // Verificar si el usuario está autenticado
+                    if (isset($_COOKIE['usuario'])) {
+                        // Si está autenticado, mostrar el botón de Logout
+                        echo '<li class="login-item"><a href="logout.php">Logout</a></li>';
+                    } else {
+                        // Si no está autenticado, mostrar el botón de Login
+                        echo '<li class="login-item"><a href="login.php">Login</a></li>';
+                    }
+                	?>
 				</ul>
-			</div>			
+			</div><!--/.nav-collapse -->			
 		</div>	
 	</nav>
 </header>
@@ -68,87 +112,59 @@
 <main id="main">
 	<div class="container">
 		<div class="row section recentworks topspace">
-			<h2 class="section-title"><span>Materias</span></h2><br>
-			<!-- INICIO PHP -->
-			<?php
-			$conn = mysqli_connect('localhost', 'root', '', 'uaq');
+			<h2 class="section-title"><span>Tren Superior</span></h2><br>
+				<div class="container">
+					<div class="row topspace">
+						<div class="col-sm-8 col-sm-offset-2">
+							<!-- INICIO PHP -->
+							<?php
+								$host = "cloudblogdb.c7jstvu3n7sx.us-east-1.rds.amazonaws.com";
+								$usuario = "admin";
+								$contrasena = "12345678";
+								$base_de_datos = "CloudBlog";
 
-			if (!$conn) {
-				die('Error al conectar a la base de datos: ' . mysqli_connect_error());
-			}
+								// Conexión a la base de datos
+								$bd = new mysqli($host, $usuario, $contrasena, $base_de_datos);
 
-			$query = "SELECT * FROM materias";
-			$result = mysqli_query($conn, $query);
+								// Verificación de conexión
+								if ($bd->connect_error) {
+									die("Conexión fallida: " . $bd->connect_error);
+								}
 
-			echo "
-			<style>
-				#mates {
-					margin: 0 auto;
-				}
+								$query = "SELECT * FROM posts WHERE topic = 'tren_superior'";
+								$resultado = $bd->query($query);
 
-				#mates td,
-				#mates th {
-					padding: 10px;
-				}
+								if ($resultado->num_rows > 0) {
+									echo '<div class="col-sm-8 col-sm-offset-2">';
+									while ($row = $resultado->fetch_assoc()) {
+										$postId = $row['id'];
+										$title = $row['title'];
+										$content = $row['content'];
+										$autor = $row['autor'];
 
-				button {
-					border: none;
-					border-radius: 50px;
-					padding: 10px 20px;
-					background-color: #4CAF50;
-					color: #ffffff;
-					cursor: pointer;
-				}
+										echo "
+										<article class='post'>
+											<header class='entry-header'>
+												<div class='entry-meta'> 
+													<span class='posted-on'><time class='entry-date published'>Publicado por $autor</span>            
+												</div>
+												<h1 class='entry-title'><a href='post.php?id=$postId' rel='bookmark'>$title</a></h1>
+											</header>
+											<div class='entry-content'>
+												<p>$content</p>
+											</div>
+										</article>";
+									}
+									echo '</div>';
+								} else {
+									echo "Parece que no hay ningún post aún";
+								}
 
-				button:hover {
-					background-color: #45a049;
-				}
-			</style>
-
-			<div class='uwu'>
-				<table id='mates'>
-					<tr>
-						<th>ID</th>
-						<th>Nombre</th>
-						<th>Semestre</th>
-						<th>Creditos</th>
-						<th>---</th>
-					</tr>";
-
-			if (mysqli_num_rows($result) > 0) {
-				echo "<ul>";
-				while ($row = mysqli_fetch_assoc($result)) {
-					$materiaId = $row['id_M'];
-					$nombreMateria = $row['nombre'];
-					$semestre = $row['sem'];
-					$creditos = $row['creditos'];
-
-					echo "
-					<form action='guardar.php' method='POST'>
-						<tr>
-							<td>$materiaId </td>
-							<td>$nombreMateria</td>
-							<td>$semestre</td>
-							<td>$creditos</td>
-							<td>
-								<input type='hidden' name='id_M' value='$materiaId'>
-								<input type='hidden' name='nombre' value='$nombreMateria'>
-								<input type='hidden' name='sem' value='$semestre'>
-								<input type='hidden' name='creditos' value='$creditos'>
-								<button type='submit'>Registrar</button>
-							</td>
-						</tr>
-					</form>";
-				}
-				echo "</ul>";
-			} else {
-				echo "No se encontraron materias.";
-			}
-
-			echo "</table></div>";
-
-			mysqli_close($conn);
-			?>
+								$bd->close();
+							?>
+						</div>
+					</div>
+				</div>
 		</div>
 	</div>
 </main>

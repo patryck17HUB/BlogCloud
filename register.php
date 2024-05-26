@@ -47,7 +47,7 @@
 			<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
 				
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="index.html">Inicio</a></li>
+					<li class="active"><a href="index.php">Inicio</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Temas<b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -55,8 +55,7 @@
 							<li><a href="TrenInferior.php">Tren Inferior</a></li>
 						</ul>
 					</li>
-					<li><a href="about.html">Mas</a></li>
-					<li class="login-item"><a href="login.html">Login</a></li>
+					<li class="login-item"><a href="login.php">Login</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->			
 		</div>	
@@ -69,43 +68,36 @@
 	
 		<div class="row section recentworks topspace">
 			
-			<h2 class="section-title"><span>Trending Topics</span></h2>
+			<h2 class="section-title"><span>Registrar</span></h2>
 			
 			<div class="container">
 				<div class="row topspace">
 					<div class="col-sm-8 col-sm-offset-2">
-																	
-						<article class="post">
-							<header class="entry-header">
-								<div class="entry-meta"> 
-									<span class="posted-on"><time class="entry-date published" date="2013-09-27">Junio 7, 2023</time></span>			
-								</div>
-								<h1 class="entry-title"><a href="single.html" rel="bookmark">Becas</a></h1>
-							</header>
-							<div class="entry-content">
-								<p> 
-									La Dirección de Desarrollo Académico (DDA) le da la bienvenida a usted, docente de la Universidad Autónoma de Querétaro. 
-									La DDA es una dependencia de la Secretaria Académica de la Universidad Autónoma de Querétaro, cuyo objetivo es contribuir al fortalecimiento del proceso enseñanza-aprendizaje en los Programas Educativos de la Institución. 
-									Para lograrlo cuenta con los programas de formación, evaluación y promoción docente; así como los de orientación educativa e institucional de tutorías. 
-								</p>
-							</div>
-						</article>
-						 
-						 <article class="post">
-							<header class="entry-header">
-								 <div class="entry-meta"> 
-									 <span class="posted-on"><time class="entry-date published" date="2013-06-17">Mayo 27, 2023</time></span>			
-								 </div> 
-								 <h1 class="entry-title"><a href="single.html" rel="bookmark">Vacuna UAQ</a></h1>
-							</header> 
-							<div class="entry-content"> 
-								<p><img alt="" src="assets/images/UAQVAQ.jpg"></p>
-								<p>
-									“Tenemos dos prototipos de vacuna a base de una proteína para administración intramuscular ya demostramos que tienen efectos celulares y humorales y que generan anticuerpos neutralizantes contra las principales variantes de preocupación (Alfa, Beta, Gama, Delta y Ómicron), todo esto en ensayos preclínicos. Tenemos también un prototipo de vacuna basada en proteína para administración intranasal con efectos humorales y celulares nuevos”, informó el líder del proyecto y titular del Laboratorio de Investigación en Inmunología y Vacunas (Linvas), Dr. Juan Joel Mosqueda Gualito.
-									<a href="single.html" class="more-link">Continue reading&#8230;</a>
-								</p>
-							</div> 
-						</article>
+
+                    <div class="login-container">
+						
+                    <form action="post_process.php" method="POST">
+                        <div class="form-group">
+                            <label for="name">Nombre de usuario</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Ingresa tu nombre de usuario" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" class="form-control" id="mail" name="mail" placeholder="Ingresa tu correo electrónico" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password">Confirmar contraseña</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirma tu contraseña" required>
+                            <p id="passwordError" class="text-danger"></p>
+                        </div>
+                        <button id="registerButton" type="submit" class="btn btn-primary">Registrarse</button>
+                    </form>
+					
+                    </div>
 					</div>
 				</div>
 			</div>
@@ -145,5 +137,18 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="assets/js/template.js"></script>
+<script>
+$(document).ready(function() {
+    $('#confirm_password').on('keyup', function () {
+        if ($('#password').val() == $('#confirm_password').val()) {
+            $('#passwordError').html('');
+            $('#registerButton').prop('disabled', false);
+        } else {
+            $('#passwordError').html('Las contraseñas no coinciden');
+            $('#registerButton').prop('disabled', true);
+        }
+    });
+});
+</script>
 </body>
 </html>

@@ -6,13 +6,13 @@
 	<meta name="description" content="">
 	<meta name="author" content="Sergey Pozhilov (GetTemplate.com)">
 	
-	<title>Registro de materias</title>
+	<title>Initio - Free, multipurpose html5 template by GetTemplate</title>
 
 	<link rel="shortcut icon" href="assets/images/LOGOUAQ.jpg">
 	
 	<!-- Bootstrap -->
 	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
-	<!-- Icon font -->
+	<!-- Icons -->
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	<!-- Fonts -->
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Alice|Open+Sans:400,300,700">
@@ -21,7 +21,7 @@
 
 	<!--[if lt IE 9]> <script src="assets/js/html5shiv.js"></script> <![endif]-->
 </head>
-<body>
+<body class="home">
 
 <header id="header">
 	<div id="head" class="parallax" parallax-speed="2">
@@ -107,64 +107,46 @@
 	</nav>
 </header>
 
-<!-- MATERIAS Y ASI -->
-
 <main id="main">
+
 	<div class="container">
+	
 		<div class="row section recentworks topspace">
-			<h2 class="section-title"><span>Tren Inferior</span></h2><br>
-				<div class="container">
-					<div class="row topspace">
-						<div class="col-sm-8 col-sm-offset-2">
-							<!-- INICIO PHP -->
-							<?php
-								$host = "cloudblogdb.c7jstvu3n7sx.us-east-1.rds.amazonaws.com";
-								$usuario = "admin";
-								$contrasena = "12345678";
-								$base_de_datos = "CloudBlog";
+			
+			<h2 class="section-title"><span>Crear Post</span></h2>
+			
+			<div class="container">
+				<div class="row topspace">
+					<div class="col-sm-8 col-sm-offset-2">
 
-								// Conexión a la base de datos
-								$bd = new mysqli($host, $usuario, $contrasena, $base_de_datos);
+                    <div class="login-container">
+																	
+                    <form action="post_process.php" method="POST">
+                        <div class="form-group">
+                            <label for="title">Título</label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Ingresa el título del post" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="topic">Tema</label>
+                            <select class="form-control" id="topic" name="topic" required>
+                                <option value="tren_superior">Tren Superior</option>
+                                <option value="tren_inferior">Tren Inferior</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Contenido</label>
+                            <textarea class="form-control" id="content" name="content" placeholder="Ingresa el contenido del post" rows="5" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="name" name="name" value="<?php echo $_COOKIE['usuario']; ?>">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Publicar</button>
+                    </form>
 
-								// Verificación de conexión
-								if ($bd->connect_error) {
-									die("Conexión fallida: " . $bd->connect_error);
-								}
-
-								$query = "SELECT * FROM posts WHERE topic = 'tren_inferior'";
-								$resultado = $bd->query($query);
-
-								if ($resultado->num_rows > 0) {
-									echo '<div class="col-sm-8 col-sm-offset-2">';
-									while ($row = $resultado->fetch_assoc()) {
-										$postId = $row['id'];
-										$title = $row['title'];
-										$content = $row['content'];
-										$autor = $row['autor'];
-
-										echo "
-										<article class='post'>
-											<header class='entry-header'>
-												<div class='entry-meta'> 
-													<span class='posted-on'><time class='entry-date published'>Publicado por $autor</span>            
-												</div>
-												<h1 class='entry-title'><a href='post.php?id=$postId' rel='bookmark'>$title</a></h1>
-											</header>
-											<div class='entry-content'>
-												<p>$content</p>
-											</div>
-										</article>";
-									}
-									echo '</div>';
-								} else {
-									echo "Parece que no hay ningún post aún";
-								}
-
-								$bd->close();
-							?>
-
+                    </div>
 					</div>
 				</div>
+			</div>
 		</div>
 	</div>
 </main>
@@ -196,7 +178,6 @@
 		</div> <!-- /row of widgets -->
 	</div>
 </footer>
-
 
 <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

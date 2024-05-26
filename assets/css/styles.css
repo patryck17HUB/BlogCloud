@@ -66,6 +66,7 @@ body {
 }
 .navbar-collapse .navbar-nav > li > a {
   padding: 20px 30px;
+  font-weight: bold;
 }
 .dropdown ul.dropdown-menu {
   top: 85%;
@@ -73,6 +74,7 @@ body {
 }
 .dropdown ul.dropdown-menu > li > a {
   padding: 5px 30px;
+  font-weight: bold;
 }
 .navbar-default {
   background-color: #ffffff;
@@ -687,13 +689,14 @@ footer.entry-meta .meta-in {
 }
 #comments .comments-title {
   text-shadow: none;
-  margin-bottom: 0;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 #comments .avatar {
   float: left;
   width: 70px;
   height: 70px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border: 5px solid #eeeeee;
   -webkit-border-radius: 50%;
   -webkit-background-clip: padding-box;
@@ -728,7 +731,9 @@ footer.entry-meta .meta-in {
   float: right;
 }
 #comments .comment-body {
-  margin: 0 0 35px 90px;
+  margin: 0 0 28px 90px;
+  word-wrap: break-word; /* Para que las palabras largas se dividan y no se desborden */
+  max-width: 100%; /* Asegura que el comentario no se desborde del contenedor */
 }
 .comment-navigation {
   width: 100%;
@@ -806,4 +811,12 @@ footer.entry-meta .meta-in {
   .container {
     max-width: 1080px;
   }
+}
+.login-container {
+  /* Estilos para el contenedor de login */
+  /* Por ejemplo: */
+  padding: 20px;
+  margin-bottom: 50px; /* Ajusta este valor según lo desees */
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
