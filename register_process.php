@@ -19,6 +19,10 @@ $mail = $bd->real_escape_string($_POST['mail']);
 $password = $bd->real_escape_string($_POST['password']);
 $avatar = $bd->real_escape_string($_POST['avatar']);
 
+if ($avatar == NULL) {
+    $avatar = "https://cloudbucketblog.s3.amazonaws.com/1.jpg";
+}
+
 // Consulta SQL para verificar si el nombre de usuario ya existe
 $query_check = "SELECT * FROM users WHERE name = '$name'";
 $result_check = $bd->query($query_check);

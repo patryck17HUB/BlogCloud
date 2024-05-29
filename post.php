@@ -66,9 +66,6 @@ $bd->close();
 	<meta name="description" content="">
 	<meta name="author" content="Sergey Pozhilov (GetTemplate.com)">
 	
-	<title>Registro de materias</title>
-
-	<link rel="shortcut icon" href="assets/images/LOGOUAQ.jpg">
 	
 	<!-- Bootstrap -->
 	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
@@ -86,7 +83,6 @@ $bd->close();
 <header id="header">
 	<div id="head" class="parallax" parallax-speed="2">
 		<h1 id="logo" class="text-center">
-			<img class="img-circle" src="assets/images/LOGOUAQ.jpg" alt="">
 			<span class="title">EZSport</span><br>
 			<span class="title">Ejercicios</span>
 		</h1>
@@ -177,6 +173,46 @@ $bd->close();
                         <!-- Cabecera del post -->
                         <header class="entry-header">
                             <div class="entry-meta">
+
+
+                                <?php
+                                // Verificar si el usuario está autenticado
+                                if (isset($_COOKIE['usuario'])) {
+                                    // Conexión a la base de datos
+                                    $host = "cloudblogdb.c7jstvu3n7sx.us-east-1.rds.amazonaws.com";
+                                    $usuario = "admin";
+                                    $contrasena = "12345678";
+                                    $base_de_datos = "CloudBlog";
+
+                                    $bd = new mysqli($host, $usuario, $contrasena, $base_de_datos);
+
+                                    // Verificación de conexión
+                                    if ($bd->connect_error) {
+                                        die("Conexión fallida: " . $bd->connect_error);
+                                    }
+
+                                    // Obtener el tipo de usuario
+                                    $name = $_COOKIE['usuario'];
+                                    $query = "SELECT admin FROM users WHERE name = '$name'";
+                                    $resultado = $bd->query($query);
+
+                                    // Verificar si se encontró el usuario
+                                    if ($resultado->num_rows > 0) {
+                                        $fila = $resultado->fetch_assoc();
+                                        $admin = $fila['admin'];
+
+                                        // Mostrar el botón "Crear Post" solo si el usuario es administrador
+                                        if ($admin == 1) {
+                                            echo '<h1 class="entry-title"><a href="borrar_post.php?id=' . $post_id . '">Borrar Post</a></h1>';
+                                        }
+                                    }
+
+                                    // Cerrar la conexión a la base de datos
+                                    $bd->close();
+                                }
+                                ?>
+
+
                                 <!-- Avatar y autor -->
                                 <img src="<?php echo $autor_avatar; ?>" alt="Avatar" class="avatar">
                                 <span class="posted-on"><time class="entry-date published">Publicado por <?php echo $autor; ?></time></span>
@@ -276,29 +312,50 @@ $bd->close();
     </main>
 
     <footer id="footer">
-        <div class="container">
-
-        </div>
-    </footer>
-
-    <footer id="underfooter">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 widget">
-                    <div class="widget-body">
-                        <p>Universidad Autónoma de Querétaro</p>
-                    </div>
-                </div>
-                <div class="col-md-6 widget">
-                    <div class="widget-body">
-                        <p class="text-right">
-                            Copyright &copy; 2023, Diego Pescador
-                        </p>
-                    </div>
-                </div>
+    <div class="container">
+	<div class="row">
+            <!-- Espacio para la información del proyecto -->
+            <div class="col-md-6">
+                <h4>Sobre el Proyecto</h4>
+                <p>Este proyecto fue realizado como parte de la materia de Servicios CLoud.</p>
+                <p>Objetivo: Blog personal con servicios AWS.</p>
+            </div>
+            <!-- Espacio para los detalles del equipo -->
+            <div class="col-md-6">
+                <h4>Equipo de Trabajo</h4>
+                <ul>
+                    <li>Patryck Yael Poumian Camacho - 307036</li>
+                    <li>Diego Julian Pescador Cordova - 307051</li>
+                    <li>Pablo Jouse Camorlinga Vazquez - 307092</li>
+                    <!-- Agregar más miembros según sea necesario -->
+                </ul>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
+
+
+<footer id="underfooter">
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p>Universidad Autonoma de Queretaro</p>
+				</div>
+			</div>
+
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p class="text-right">
+						Copyright &copy; 2023, Papus team<br> 
+						 </p>
+				</div>
+			</div>
+
+		</div> <!-- /row of widgets -->
+	</div>
+</footer>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>

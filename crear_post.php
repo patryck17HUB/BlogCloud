@@ -26,7 +26,6 @@
 <header id="header">
 	<div id="head" class="parallax" parallax-speed="2">
 		<h1 id="logo" class="text-center">
-			<img class="img-circle" src="assets/images/LOGOUAQ.jpg" alt="">
 			<span class="title">EZSport</span><br>
 			<span class="title">Ejercicios</span>
 		</h1>
@@ -151,10 +150,28 @@
 </main>
 
 <footer id="footer">
-	<div class="container">
-		
-	</div>
+    <div class="container">
+	<div class="row">
+            <!-- Espacio para la información del proyecto -->
+            <div class="col-md-6">
+                <h4>Sobre el Proyecto</h4>
+                <p>Este proyecto fue realizado como parte de la materia de Servicios CLoud.</p>
+                <p>Objetivo: Blog personal con servicios AWS.</p>
+            </div>
+            <!-- Espacio para los detalles del equipo -->
+            <div class="col-md-6">
+                <h4>Equipo de Trabajo</h4>
+                <ul>
+                    <li>Patryck Yael Poumian Camacho - 307036</li>
+                    <li>Diego Julian Pescador Cordova - 307051</li>
+                    <li>Pablo Jouse Camorlinga Vazquez - 307092</li>
+                    <!-- Agregar más miembros según sea necesario -->
+                </ul>
+            </div>
+        </div>
+    </div>
 </footer>
+
 
 <footer id="underfooter">
 	<div class="container">
@@ -169,7 +186,7 @@
 			<div class="col-md-6 widget">
 				<div class="widget-body">
 					<p class="text-right">
-						Copyright &copy; 2023, Diego Pescador<br> 
+						Copyright &copy; 2023, Papus team<br> 
 						 </p>
 				</div>
 			</div>

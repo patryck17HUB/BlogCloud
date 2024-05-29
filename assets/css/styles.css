@@ -783,6 +783,9 @@ footer.entry-meta .meta-in {
 #footer a:hover {
   color: #fff;
 }
+#footer h4 {
+  color: #D3D3D3;
+}
 #footer h3.widget-title {
   font-size: 15px;
   font-size: 0.9375rem;
